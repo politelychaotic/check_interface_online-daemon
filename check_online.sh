@@ -6,7 +6,7 @@ function check_interface
 time=$(date);
 if check_interface eth0; then
     echo  "[${time}] eth0: Online" > /var/log/check_online.log;
-elif !check_interface; then
+elif !check_interface eth0; then
     echo "[${time}] eth0: Offline" > /var/log/check_online.log;
 fi
 
