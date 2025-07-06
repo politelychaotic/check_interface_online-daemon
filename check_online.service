@@ -1,0 +1,8 @@
+[Unit]
+Description=Checks if NIC interfaces are online
+
+[Service]
+ExecStart=/usr/local/bin/check_online.sh
+
+[Install]
+WantedBy=multi-user.target
