@@ -3,21 +3,23 @@
 function check_interface 
 {
     set -o pipefail;
-    /sbin/ethtool "$1" | grep -q "link detected: yes";
+    ip link show "$1" | grep -q "state UP";
 }
+
 while true
 do
     time=$(date);
-    if check_interface eth0; then
-        echo  "[${time}] eth0: Online" >> /var/log/check_online.log;
-    elif ! check_interface eth0; then
-        echo "[${time}] eth0: Offline" >> /var/log/check_online.log;
+    interface="eth0";
+    if check_interface "$interface"; then
+        echo  "[${time}] ${interface}: Online" >> /var/log/check_online.log;
+    elif ! check_interface "$interface"; then
+        echo "[${time}] ${interface}: Offline" >> /var/log/check_online.log;
     fi
-
-    if check_interface wlan0; then
-        echo "[${time}] wlan0: Online" >> /var/log/check_online.log;
-    elif ! check_interface wlan0; then
-        echo "[${time}] wlan0: Offline" >> /var/log/check_online.log;
+    interface="wlan0";
+    if check_interface "$interface"; then
+        echo "[${time}] ${interface}: Online" >> /var/log/check_online.log;
+    elif ! check_interface "$interface"; then
+        echo "[${time}] ${interface}: Offline" >> /var/log/check_online.log;
     fi
     
     sleep 5;
